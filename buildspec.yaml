@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - BASE_WORKING_DIR=$(pwd)
+      # go to base dir
+      - version=$(git ls-remote --tags --refs --sort="v:refname" https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/$RepositoryName | tail -n1 | sed 's/.*\///')
+      - echo $version
+      # - |
+      #   if [ -n "$version" ]; then
+      #     aws s3 sync ./ s3://$WebBucketName/$version/
+      #   fi
+      - aws s3 cp ./webapp/* s3://$WebBucketName/
